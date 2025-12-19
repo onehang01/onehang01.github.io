@@ -1,0 +1,747 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/onehang.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="onehang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言本文来自清华大学的一项研究 https:&#x2F;&#x2F;i.blackhat.com&#x2F;BH-USA-25&#x2F;Presentations&#x2F;USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf 为了避免做重复机械的翻译工作，我会同时从一个水平一般的学习者的角度讲解我学到的东">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过Server Push和SXG实现跨源web攻击的学习">
+<meta property="og:url" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="onehang&#39;s blogs">
+<meta property="og:description" content="前言本文来自清华大学的一项研究 https:&#x2F;&#x2F;i.blackhat.com&#x2F;BH-USA-25&#x2F;Presentations&#x2F;USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf 为了避免做重复机械的翻译工作，我会同时从一个水平一般的学习者的角度讲解我学到的东">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216225329616.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217181945138.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218101150976.png">
+<meta property="article:published_time" content="2025-12-16T14:17:56.000Z">
+<meta property="article:modified_time" content="2025-12-19T13:28:39.701Z">
+<meta property="article:author" content="onehang">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216225329616.png">
+  
+  
+  
+  <title>通过Server Push和SXG实现跨源web攻击的学习 - onehang&#39;s blogs</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>onehang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="通过Server Push和SXG实现跨源web攻击的学习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-16 22:17" pubdate>
+          2025年12月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">通过Server Push和SXG实现跨源web攻击的学习</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="前言"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#前言" class="headerlink" title="前言"></a>前言</h1><p>本文来自清华大学的一项研究</p>
+<p><a target="_blank" rel="noopener" href="https://i.blackhat.com/BH-USA-25/Presentations/USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf">https://i.blackhat.com/BH-USA-25/Presentations/USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf</a></p>
+<p>为了避免做重复机械的翻译工作，我会同时从一个水平一般的学习者的角度讲解我学到的东西，如有不当之处，务必指正</p>
+<h1 id="SOP是什么"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SOP是什么" class="headerlink" title="SOP是什么"></a>SOP是什么</h1><p><strong>SOP全称same-origin policy，翻译成中文就是同源策略</strong></p>
+<p>SOP是web安全的基石，它被设计用于防护跨源攻击</p>
+<p>那么什么是同源什么是跨源呢，要弄清这个问题，我们需要先知道源的定义：<strong>由协议、主机名、端口号三者确定的三元组</strong>，（e.g. {“https”,”a.com”,”443”}）只有这三部分完全相同时才叫做同源，很显然他是基于URI的（URI-based）</p>
+<style>.bjcgqgdbeixv{zoom:50%;}</style>
+
+<p>图中的a.com和b.com显然为不同源的两个站点，SOP就像一个隔板，将这两个网站隔开，如果用户通过浏览器从a.com向b.com的服务器发送请求，同源策略会拦截b服务器返回的数据，比如常见的xss，在跨站攻击的时候可以通过iframe从一个网站引入另一个网站的资源，如果不同源，就会被SOP拦截</p>
+<h1 id="SAN是什么"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SAN是什么" class="headerlink" title="SAN是什么"></a>SAN是什么</h1><p>SAN全称是<strong>Subject Alternative Name</strong>，翻译成中文是<strong>使用者备用名称</strong></p>
+<p>在TLS&#x2F;SSL证书中，SAN的作用是解决单证书适配多域名的需求，在早期传统的证书中，存在一个CN字段，用于表示主域名，仅支持单域名，而SAN支持绑定多个域名，并且，除了域名，SAN还支持绑定IP，邮箱，URI</p>
+<p><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/image-20251216225329616.png" srcset="/img/loading.gif" lazyload alt="image-20251216225329616"></p>
+<p>这就是SAN字段可能包含的内容，与之相似的还有一个叫做通配符证书的东西，通配符证书也就是类似于*.example.com</p>
+<p>它可以作用所有后缀为.example.com的子域名，显然灵活性远远不如SAN</p>
+<p>HTTP&#x2F;2 和 HTTP&#x2F;3认为所有在证书的SAN里面的主域名是”同源“的，这里的同源和浏览器SOP认为的同源不完全一样</p>
+<p>主要是视这些主机具有<strong>同一 TLS 权限</strong></p>
+<h1 id="SAN-based-origin"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SAN-based-origin" class="headerlink" title="SAN-based origin"></a>SAN-based origin</h1><p>显然和前面的URI-based origin相比，基于SAN的同源要求更松，也就意味着它的灵活性更好，96%的证书在SAN列表中有多个域名，甚至3.2%的证书还包含来自不同组织的域名</p>
+<style>.mysyuqqryfeo{zoom:50%;}</style>
+
+<h1 id="这种更为激进的“源”会给网络带来什么新的威胁？"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#这种更为激进的“源”会给网络带来什么新的威胁？" class="headerlink" title="这种更为激进的“源”会给网络带来什么新的威胁？"></a>这种更为激进的“源”会给网络带来什么新的威胁？</h1><p>在这之前，我们需要了解一些前置知识</p>
+<h2 id="HTTP-2-Server-Push"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#HTTP-2-Server-Push" class="headerlink" title="HTTP&#x2F;2 Server Push"></a>HTTP&#x2F;2 Server Push</h2><p><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/image-20251217181945138.png" srcset="/img/loading.gif" lazyload alt="image-20251217181945138"></p>
+<p>传统的没有Push的方式需要浏览器向服务器请求多次来获取所需的所有资源，这回浪费时间，影响用户体验。</p>
+<p>而Push就是当用户请求了html之后，服务器就会直接把需要的资源比如css发到浏览器。</p>
+<p>那么他是怎么实现的呢</p>
+<h3 id="通过Nginx的实现"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#通过Nginx的实现" class="headerlink" title="通过Nginx的实现"></a>通过Nginx的实现</h3><p>配置文件<code>conf/conf.d/default.conf</code></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>    <span class="hljs-attribute">listen</span> <span class="hljs-number">443</span> ssl http2;<br>    <span class="hljs-attribute">server_name</span>  localhost;<br><br>    <span class="hljs-attribute">ssl</span>                      <span class="hljs-literal">on</span>;<br>    <span class="hljs-attribute">ssl_certificate</span>          /etc/nginx/certs/example.crt;<br>    <span class="hljs-attribute">ssl_certificate_key</span>      /etc/nginx/certs/example.key;<br><br>    <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;<br><br>    <span class="hljs-attribute">ssl_ciphers</span> HIGH:!aNULL:!MD5;<br>    <span class="hljs-attribute">ssl_protocols</span> SSLv3 TLSv1 TLSv1.<span class="hljs-number">1</span> TLSv1.<span class="hljs-number">2</span>;<br>    <span class="hljs-attribute">ssl_prefer_server_ciphers</span>   <span class="hljs-literal">on</span>;<br><br>    <span class="hljs-section">location</span> / &#123;<br>      <span class="hljs-attribute">root</span>   /usr/share/nginx/html;<br>      <span class="hljs-attribute">index</span>  index.html index.htm;<br>      <span class="hljs-attribute">http2_push</span> /style.css;<br>      <span class="hljs-attribute">http2_push</span> /example.png;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>关注最后两行的内容，它表明如果用户请求根目录，就会自动push style.css和example.png这两个文件</p>
+<h3 id="通过Apache的实现"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#通过Apache的实现" class="headerlink" title="通过Apache的实现"></a>通过Apache的实现</h3><p>配置文件<code>httpd.conf</code>或者<code>.htaccess</code></p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs lasso">&lt;FilesMatch <span class="hljs-string">&quot;\index.html$&quot;</span>&gt;<br>    <span class="hljs-keyword">Header</span> add <span class="hljs-keyword">Link</span> <span class="hljs-string">&quot;&lt;/styles.css&gt;; rel=preload; as=style&quot;</span><br>    <span class="hljs-keyword">Header</span> add <span class="hljs-keyword">Link</span> <span class="hljs-string">&quot;&lt;/example.png&gt;; rel=preload; as=image&quot;</span><br>&lt;/FilesMatch&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="通过后端实现"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#通过后端实现" class="headerlink" title="通过后端实现"></a>通过后端实现</h3><p>前面两种是通过代理的配置文件实现，略显繁琐</p>
+<p>可以让后端应用返回一个HTTP回应的头信息<code>Link</code>命令，服务器看见这个命令，就会自动Push指定的文件</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">Link: &lt;/styles.css&gt;; <span class="hljs-built_in">rel</span>=preload; <span class="hljs-keyword">as</span>=style, &lt;/example.png&gt;; <span class="hljs-built_in">rel</span>=preload; <span class="hljs-keyword">as</span>=image<br></code></pre></td></tr></table></figure>
+
+<p>此时，再修改Nginx的配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">server &#123;<br>    listen 443 ssl http2;<br><br>    <span class="hljs-comment"># ...</span><br><br>    root /var/www/html;<br><br>    location = / &#123;<br>        proxy_pass http://upstream;<br>        http2_push_preload on;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="解决缓存问题"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#解决缓存问题" class="headerlink" title="解决缓存问题"></a>解决缓存问题</h3><p>因为浏览器是有缓存的，他会把css等文件缓存到本地，这时再重复推送显然很浪费带宽。Nginx官方提出的一种解决办法是仅当用户第一次访问的时候才Push，根据Cookie来判断用户是否是第一次访问，配置方法如下</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs lasso">server &#123;<br>    listen <span class="hljs-number">443</span> ssl http2 default_server;<br><br>    ssl_certificate ssl/certificate.pem;<br>    ssl_certificate_key ssl/key.pem;<br><br>    root /<span class="hljs-built_in">var</span>/www/html;<br>    http2_push_preload <span class="hljs-keyword">on</span>;<br><br>    location = /demo.html &#123;<br>        add_header <span class="hljs-built_in">Set</span><span class="hljs-params">-Cookie</span> <span class="hljs-string">&quot;session=1&quot;</span>;<br>        add_header <span class="hljs-keyword">Link</span> $resources;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-built_in">map</span> $http_cookie $resources &#123;<br>    <span class="hljs-string">&quot;~*session=1&quot;</span> <span class="hljs-string">&quot;&quot;</span>;<br>    default <span class="hljs-string">&quot;&lt;/style.css&gt;; as=style; rel=preload&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="SXG"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SXG" class="headerlink" title="SXG"></a>SXG</h2><p>SXG全称是<strong>Signed HTTP Exchange</strong></p>
+<p>借助SXG，发布商可以对单个HTTP交换（即请求&#x2F;响应对）进行签名，这可让发布商安全地确保内容可移植（即可供其他方重新分发），同时保留内容的完整性和出处。</p>
+<style>.elnjheqjjdie{zoom:50%;}</style>
+
+<p>比如这里，a网站发布了一个内容，b网站作为一个服务商，可以让用户查看这个内容，在用户查看这个内容的时候，浏览器回加载这个Signed Exchange，它可以安全的在地址栏里面显示发布商的网址，也就是a.com。常见的场景是CDN。</p>
+<p>如果想要不通过SXG来实现这个功能，则需要不同的网站共享TLS的密钥，这会带来一些安全问题。</p>
+<style>.jpiebisxmxoi{zoom:50%;}</style>
+
+<h2 id="共同点"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#共同点" class="headerlink" title="共同点"></a>共同点</h2><ul>
+<li>他们都遵守SAN-based origin</li>
+<li>他们都可以通过服务器的响应在共享的证书中表明(欺骗)他们的“源”（通过<code>:authority</code>伪标头和<code>request-url</code>签名标头）</li>
+</ul>
+<h2 id="影响"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#影响" class="headerlink" title="影响"></a>影响</h2><p>攻击者可以Push&#x2F;Provide资源到SAN列表中的其他站点，也就是CrossPush And CrossSXG 攻击</p>
+<style>.dxvenpggytrt{zoom:50%;}</style>
+
+<ol>
+<li>获取一个与受害者网站共享的证书</li>
+<li>引诱用户访问攻击者的网站</li>
+<li>在攻击者服务器向用户Push内容时，因为与victim.com同在一个SAN列表中，所以他们拥有相同的TLS权限，攻击者可以通过伪造<code>:authority</code>来指向受害者的网站，攻击者也可以通过篡改 SXG 中的<code>request-url</code>和<code>validity-url</code>头部，虚假标注恶意内容的来源，指向victim.com</li>
+<li>浏览器会接收到攻击者服务器Push的恶意脚本（比如XSS），将其视为来自同源的victim.com网站，并在访问victim.com时执行它</li>
+</ol>
+<p><strong>这使得路径外的攻击者借助共享证书发起可以实际落地的web攻击</strong></p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">tips:</span><br>	路径内攻击者：处于受害者和目标服务器的网络传输路径中（比如中间路由器，代理节点），可以直接监听，篡改数据<br>	路径外攻击者：不在这个传输路径中，无法直接监听和篡改数据，但可以借助其他漏洞发起攻击<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="攻击方式"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><h3 id="借助HTTP-body"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#借助HTTP-body" class="headerlink" title="借助HTTP body"></a>借助HTTP body</h3><h4 id="通用的XSS"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#通用的XSS" class="headerlink" title="通用的XSS"></a>通用的XSS</h4><p>有一篇博客很好的讲解了这个过程： <a target="_blank" rel="noopener" href="https://tttang.com/archive/1703/">https://tttang.com/archive/1703/</a></p>
+<style>.lfdqtpuemgbv{zoom:50%;}</style>
+
+<p>即使有CSP，也无法阻止这样的攻击</p>
+<h4 id="操纵Cookie"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#操纵Cookie" class="headerlink" title="操纵Cookie"></a>操纵Cookie</h4><p><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/image-20251218101150976.png" srcset="/img/loading.gif" lazyload alt="image-20251218101150976"></p>
+<p><strong>原理</strong>：</p>
+<p>​	在HTTP&#x2F;2协议中，TLS权限的主体是按照SAN列表来定的，证书里的所有域名都是同一权限，而浏览器的同源策略是按		照URI的域名来判定的，这就导致了差异，如果攻击者服务器与victim.com同在一个SAN列表中，攻击者服务器在设置		<code>domain=victim.com</code>时，HTTP&#x2F;2会认为这是合法的，从而导致浏览器认为这个设置也是合法的，于是允许了这次Set-		Cookie</p>
+<h4 id="绕过HSTS"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#绕过HSTS" class="headerlink" title="绕过HSTS"></a>绕过HSTS</h4><p>**HSTS：**HTTP Strict Transport Security，即HTTP严格传输安全，也就是强制浏览器仅通过HTTPS与服务器进行通信</p>
+<style>.lrddxfhnypjt{zoom:50%;}</style>
+
+<p>利用共享的证书，攻击者可以通过设置max-age&#x3D;0，并且让浏览器误以为这是victim.com自己发的，从而让HSTS失效</p>
+<h4 id="恶意文件下载"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#恶意文件下载" class="headerlink" title="恶意文件下载"></a>恶意文件下载</h4><style>.btotvemgbfvt{zoom:50%;}</style>
+
+<p>攻击者通过设置Conten-Disposition，attachment告诉浏览器这是一个附件，需要下载，同时利用共享的证书，让浏览器信任攻击者的服务器，下载了恶意的木马文件</p>
+<h2 id="如何让这些攻击方式落地？"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#如何让这些攻击方式落地？" class="headerlink" title="如何让这些攻击方式落地？"></a>如何让这些攻击方式落地？</h2><p>要是实现这些攻击，考虑以下三个问题</p>
+<ol>
+<li>如何获得与受害者服务器共享的证书</li>
+<li>如何让攻击持久化</li>
+<li>如何绕过潜在的对策，比如证书撤销</li>
+</ol>
+<h3 id="获得与受害者服务器共享的证书"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#获得与受害者服务器共享的证书" class="headerlink" title="获得与受害者服务器共享的证书"></a>获得与受害者服务器共享的证书</h3><h4 id="利用一些缺陷"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#利用一些缺陷" class="headerlink" title="利用一些缺陷"></a>利用一些缺陷</h4><p><code>/.well-known</code>目录中不安全的文件上传</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs swift"><span class="hljs-regexp">/.well-known是HTTP协议中预定义的标准目录，用于存放网站对外提供的公共配置文件，其中./</span>well<span class="hljs-operator">-</span>known<span class="hljs-regexp">/acme-challenge/</span>是与证书签发强相关的路径，在签发证书时，如果使用“<span class="hljs-type">HTTP</span><span class="hljs-operator">-</span><span class="hljs-number">01</span> 挑战”验证域名所有权，<span class="hljs-type">CA会访问该路径下的特定文件，以此确认申请者对域名的控制权，验证通过后才会签发TLS证书</span><br>如果此目录未做严格的上传权限控制，攻击者可以上传<span class="hljs-type">CA要求的验证文件来伪造域名所有权的证明，非法申请包含目标域名的共享TLS证书</span><br></code></pre></td></tr></table></figure>
+
+<p>域名所有权下未受保护的 <code>_acme-challenge</code>DNS 记录</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">简单来说，就是在签发TLS证书的时候，CA机构需要确认申请者对域名的持有权，会要求进行验证，其中一种方式是“DNS-01”挑战，需要域名持有者在自己的<span class="hljs-built_in"> DNS </span>服务器中添加一条名为_acme-challenge.目标域名的 TXT 记录，记录值由 CA 提供。CA 会检查这条<span class="hljs-built_in"> DNS </span>记录是否存在且正确，以此确认 “申请者确实拥有该域名”，随后签发证书。如果_acme-challenge<span class="hljs-built_in"> DNS </span>记录处于未受保护状态，攻击者可以篡改记录，那么攻击者就可以伪造受害者的身份来申请证书，获得与受害者共享的证书<br></code></pre></td></tr></table></figure>
+
+<p>邮件服务商在保护域名的管理邮箱地址时存在疏忽</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">域名注册时需要填写管理邮箱，如果攻击者掌控了这个邮箱，或者能拿到验证邮件，那么就可以掌控这个域名，申请证书<br></code></pre></td></tr></table></figure>
+
+<p><strong>目前没有强制的措施能够保证域名的所有者和证书的所有者身份一致，那么攻击者是完全可以获取到共享的证书的</strong></p>
+<h5 id="具体的获取方法"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#具体的获取方法" class="headerlink" title="具体的获取方法"></a>具体的获取方法</h5><p>方法一：倒卖域名</p>
+<p>​	攻击者可以申请一张包含多个域名的证书，然后把其中的某个域名卖给受害者</p>
+<p>方法二：域名接管</p>
+<p>​	有一些域名可能曾经被注册过，但是过期后没有继续续费，但是他曾经申请的TLS证书还是有效的，如果该域名与一些		重要的域名同在一个SAN列表中，攻击者就可以购买这个域名并对这些重要域名发起攻击</p>
+<h3 id="延长攻击持续时间"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#延长攻击持续时间" class="headerlink" title="延长攻击持续时间"></a>延长攻击持续时间</h3><p>先介绍一下验证复用机制，在TLS生态中，CA为了简化验证流程，当用户首次通过DNS-01&#x2F;HTTP-01&#x2F;邮箱验证之后，CA会缓存这次验证结果，在一段有效期内，如果用户再次申请该域名的证书，无需重复进行验证，之间复用之前的缓存结果即可签发证书。攻击者先购买一个域名，在申请完证书之后就有了缓存，如果这个时候域名过期了，被受害者买去了，攻击者任然可以继续申请证书。</p>
+<p>下图为不利用验证复用机制的情况下攻击可以持续的时间，在域名被买走之前攻击者申请了一个证书，攻击可以持续直到证书过期。</p>
+<style>.kzvvaptwynkb{zoom:50%;}</style>
+
+<p>而在利用验证复用的情况下，攻击持续时间会大大加长</p>
+<style>.aitblxbvrjdx{zoom:50%;}</style>
+
+<h3 id="绕过防御策略"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#绕过防御策略" class="headerlink" title="绕过防御策略"></a>绕过防御策略</h3><p>当受害者意识到攻击者获得了共享的证书时，肯定会想办法撤销证书。而这个证书包含了攻击者域名和受害者域名，想要撤销需要满足以下两点要求之一</p>
+<ul>
+<li>对证书上的所有域名执行并通过DOV认证（DOV：Domain-Validated Only，也就是对域名所有权进行严格的鉴定）</li>
+<li>拥有私钥</li>
+</ul>
+<p>而受害者这两点要求都没办法满足，对于第一点，因为攻击者的域名也在证书上，显然受害者没法对其完成DOV认证；对于第二点，证书是攻击者签发的，私钥在攻击者那里，也没办法满足。</p>
+<p>所以受害者无法撤销这样的共享证书</p>
+<h1 id="大规模测试"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#大规模测试" class="headerlink" title="大规模测试"></a>大规模测试</h1><p>论文中，研究员们利用这个方法分别对客户端和服务端进行了真实的实验，验证了攻击的可行性，这部分省略，感兴趣的师傅可以查看原文</p>
+<p><a target="_blank" rel="noopener" href="https://i.blackhat.com/BH-USA-25/Presentations/USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf">https://i.blackhat.com/BH-USA-25/Presentations/USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf</a></p>
+<h1 id="缓解攻击"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#缓解攻击" class="headerlink" title="缓解攻击"></a>缓解攻击</h1><h2 id="从浏览器供应商"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#从浏览器供应商" class="headerlink" title="从浏览器供应商"></a>从浏览器供应商</h2><p>在浏览器中强制执行一致的authority（IP）以缓解CrossPUSH</p>
+<p>强制单域名证书来缓解CrossSXG</p>
+<h2 id="从证书认证"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#从证书认证" class="headerlink" title="从证书认证"></a>从证书认证</h2><p>在 SAN 列表中的域名所有者提出请求时，协助其将自己的域名从共享证书中移除</p>
+<h2 id="从用户"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#从用户" class="headerlink" title="从用户"></a>从用户</h2><p>在注册域名时检查证书状态</p>
+<h1 id="CTF例题"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#CTF例题" class="headerlink" title="CTF例题"></a>CTF例题</h1><h2 id="题目分析"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>SECCON CTF 14(2025) Quals–broken challenge</p>
+<p>这题考察的是xss，只有一个bot，可以让bot访问可控的网站，访问方法如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-title function_">visit</span> = <span class="hljs-keyword">async</span> (<span class="hljs-params">url</span>) =&gt; &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`start: <span class="hljs-subst">$&#123;url&#125;</span>`</span>);<br><br>  <span class="hljs-keyword">const</span> browser = <span class="hljs-keyword">await</span> puppeteer.<span class="hljs-title function_">launch</span>(&#123;<br>    <span class="hljs-attr">headless</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">executablePath</span>: <span class="hljs-string">&quot;/usr/bin/chromium&quot;</span>,<br>    <span class="hljs-attr">args</span>: [<br>      <span class="hljs-string">&quot;--no-sandbox&quot;</span>,<br>      <span class="hljs-string">&quot;--disable-dev-shm-usage&quot;</span>,<br>      <span class="hljs-string">&quot;--js-flags=--noexpose_wasm,--jitless&quot;</span>,<br>      <span class="hljs-string">&quot;--disable-features=HttpsFirstBalancedModeAutoEnable&quot;</span>,<br>    ],<br>  &#125;);<br><br>  <span class="hljs-keyword">const</span> context = <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">createBrowserContext</span>();<br><br>  <span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-keyword">await</span> context.<span class="hljs-title function_">setCookie</span>(&#123;<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;FLAG&quot;</span>,<br>      <span class="hljs-attr">value</span>: flag.<span class="hljs-property">value</span>,<br>      <span class="hljs-attr">domain</span>: <span class="hljs-string">&quot;hack.the.planet.seccon&quot;</span>,<br>      <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/&quot;</span>,<br>    &#125;);<br><br>    <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> context.<span class="hljs-title function_">newPage</span>();<br>    <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">goto</span>(url, &#123; <span class="hljs-attr">timeout</span>: <span class="hljs-number">3_000</span> &#125;);<br>    <span class="hljs-keyword">await</span> <span class="hljs-title function_">sleep</span>(<span class="hljs-number">5_000</span>);<br>    <span class="hljs-keyword">await</span> page.<span class="hljs-title function_">close</span>();<br>  &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(e);<br>  &#125;<br><br>  <span class="hljs-keyword">await</span> context.<span class="hljs-title function_">close</span>();<br>  <span class="hljs-keyword">await</span> browser.<span class="hljs-title function_">close</span>();<br><br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`end: <span class="hljs-subst">$&#123;url&#125;</span>`</span>);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>并且一个特定的自签名证书颁发机构 (cert.crt) 被安装在机器人的环境中，作为“受信任的根证书”。访问<code>/&#39;hint</code>可以获取私钥</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript">app.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;/hint&quot;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> &#123;<br>  res.<span class="hljs-title function_">render</span>(<span class="hljs-string">&quot;hint&quot;</span>, &#123;<br>    <span class="hljs-attr">hint</span>: fs.<span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">&quot;./cert.key&quot;</span>), <br>  &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>因为该域名根本不存在，所以没办法进行DNS解析</p>
+<h2 id="思路"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#思路" class="headerlink" title="思路"></a>思路</h2><p>这题就可以利用前面提到的SXG，我们有了这个站点的证书，就可以利用起来伪造一个由hack.the.planet.seccon网站签发的SXG文件，内容是一个外带cookie的payload，然后让bot访问这个网页，浏览器会认为这个文件的发布者是hack.the.planet.seccon，于是就我们的外带的payload就可以读到cookie并发到我们的vps上，拿到flag</p>
+<h1 id="感想"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#感想" class="headerlink" title="感想"></a>感想</h1><p>认认真真翻译一篇论文，遇到不懂的就去查，学到了非常多的东西，尽管零零散散的看，前前后后花了四五天，但是还是挺有意义的。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>通过Server Push和SXG实现跨源web攻击的学习</div>
+      <div>http://example.com/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>onehang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/15/RCTF2025-photographer/" title="RCTF2025-photographer">
+                        <span class="hidden-mobile">RCTF2025-photographer</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
