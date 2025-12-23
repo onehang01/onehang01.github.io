@@ -26,14 +26,24 @@
 <meta property="og:site_name" content="onehang&#39;s blogs">
 <meta property="og:description" content="前言本文来自清华大学的一项研究 https:&#x2F;&#x2F;i.blackhat.com&#x2F;BH-USA-25&#x2F;Presentations&#x2F;USA-25-Chen-Cross-Origin-Web-Attacks-via-HTTP2-Server-Push-and-Signed-HTTP-Exchange-Thursday.pdf 为了避免做重复机械的翻译工作，我会同时从一个水平一般的学习者的角度讲解我学到的东">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216223320979.png">
 <meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216225329616.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217141829547.png">
 <meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217181945138.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217184652639.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217185116043.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218093831312.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218100946792.png">
 <meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218101150976.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218102349850.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218102658939.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251219202958245.png">
+<meta property="og:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251219203227646.png">
 <meta property="article:published_time" content="2025-12-16T14:17:56.000Z">
 <meta property="article:modified_time" content="2025-12-19T13:28:39.701Z">
 <meta property="article:author" content="onehang">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216225329616.png">
+<meta name="twitter:image" content="http://example.com/2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216223320979.png">
   
   
   
@@ -285,7 +295,7 @@
 <h1 id="SOP是什么"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SOP是什么" class="headerlink" title="SOP是什么"></a>SOP是什么</h1><p><strong>SOP全称same-origin policy，翻译成中文就是同源策略</strong></p>
 <p>SOP是web安全的基石，它被设计用于防护跨源攻击</p>
 <p>那么什么是同源什么是跨源呢，要弄清这个问题，我们需要先知道源的定义：<strong>由协议、主机名、端口号三者确定的三元组</strong>，（e.g. {“https”,”a.com”,”443”}）只有这三部分完全相同时才叫做同源，很显然他是基于URI的（URI-based）</p>
-<style>.bjcgqgdbeixv{zoom:50%;}</style>
+<style>.hjtcebckuhmr{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251216223320979.png" srcset="/img/loading.gif" lazyload class="hjtcebckuhmr" alt="image-20251216223320979">
 
 <p>图中的a.com和b.com显然为不同源的两个站点，SOP就像一个隔板，将这两个网站隔开，如果用户通过浏览器从a.com向b.com的服务器发送请求，同源策略会拦截b服务器返回的数据，比如常见的xss，在跨站攻击的时候可以通过iframe从一个网站引入另一个网站的资源，如果不同源，就会被SOP拦截</p>
 <h1 id="SAN是什么"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SAN是什么" class="headerlink" title="SAN是什么"></a>SAN是什么</h1><p>SAN全称是<strong>Subject Alternative Name</strong>，翻译成中文是<strong>使用者备用名称</strong></p>
@@ -296,7 +306,7 @@
 <p>HTTP&#x2F;2 和 HTTP&#x2F;3认为所有在证书的SAN里面的主域名是”同源“的，这里的同源和浏览器SOP认为的同源不完全一样</p>
 <p>主要是视这些主机具有<strong>同一 TLS 权限</strong></p>
 <h1 id="SAN-based-origin"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SAN-based-origin" class="headerlink" title="SAN-based origin"></a>SAN-based origin</h1><p>显然和前面的URI-based origin相比，基于SAN的同源要求更松，也就意味着它的灵活性更好，96%的证书在SAN列表中有多个域名，甚至3.2%的证书还包含来自不同组织的域名</p>
-<style>.mysyuqqryfeo{zoom:50%;}</style>
+<style>.mskcotopcdqh{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217141829547.png" srcset="/img/loading.gif" lazyload class="mskcotopcdqh" alt="image-20251217141829547">
 
 <h1 id="这种更为激进的“源”会给网络带来什么新的威胁？"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#这种更为激进的“源”会给网络带来什么新的威胁？" class="headerlink" title="这种更为激进的“源”会给网络带来什么新的威胁？"></a>这种更为激进的“源”会给网络带来什么新的威胁？</h1><p>在这之前，我们需要了解一些前置知识</p>
 <h2 id="HTTP-2-Server-Push"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#HTTP-2-Server-Push" class="headerlink" title="HTTP&#x2F;2 Server Push"></a>HTTP&#x2F;2 Server Push</h2><p><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/image-20251217181945138.png" srcset="/img/loading.gif" lazyload alt="image-20251217181945138"></p>
@@ -322,18 +332,18 @@
 
 <h2 id="SXG"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#SXG" class="headerlink" title="SXG"></a>SXG</h2><p>SXG全称是<strong>Signed HTTP Exchange</strong></p>
 <p>借助SXG，发布商可以对单个HTTP交换（即请求&#x2F;响应对）进行签名，这可让发布商安全地确保内容可移植（即可供其他方重新分发），同时保留内容的完整性和出处。</p>
-<style>.elnjheqjjdie{zoom:50%;}</style>
+<style>.jtansubyxjfm{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217184652639.png" srcset="/img/loading.gif" lazyload class="jtansubyxjfm" alt="image-20251217184652639">
 
 <p>比如这里，a网站发布了一个内容，b网站作为一个服务商，可以让用户查看这个内容，在用户查看这个内容的时候，浏览器回加载这个Signed Exchange，它可以安全的在地址栏里面显示发布商的网址，也就是a.com。常见的场景是CDN。</p>
 <p>如果想要不通过SXG来实现这个功能，则需要不同的网站共享TLS的密钥，这会带来一些安全问题。</p>
-<style>.jpiebisxmxoi{zoom:50%;}</style>
+<style>.fstbmbudfgpo{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251217185116043.png" srcset="/img/loading.gif" lazyload class="fstbmbudfgpo" alt="image-20251217185116043">
 
 <h2 id="共同点"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#共同点" class="headerlink" title="共同点"></a>共同点</h2><ul>
 <li>他们都遵守SAN-based origin</li>
 <li>他们都可以通过服务器的响应在共享的证书中表明(欺骗)他们的“源”（通过<code>:authority</code>伪标头和<code>request-url</code>签名标头）</li>
 </ul>
 <h2 id="影响"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#影响" class="headerlink" title="影响"></a>影响</h2><p>攻击者可以Push&#x2F;Provide资源到SAN列表中的其他站点，也就是CrossPush And CrossSXG 攻击</p>
-<style>.dxvenpggytrt{zoom:50%;}</style>
+<style>.yznjdkxgpeuj{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218093831312.png" srcset="/img/loading.gif" lazyload class="yznjdkxgpeuj" alt="image-20251218093831312">
 
 <ol>
 <li>获取一个与受害者网站共享的证书</li>
@@ -347,17 +357,17 @@
 
 
 <h2 id="攻击方式"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h2><h3 id="借助HTTP-body"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#借助HTTP-body" class="headerlink" title="借助HTTP body"></a>借助HTTP body</h3><h4 id="通用的XSS"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#通用的XSS" class="headerlink" title="通用的XSS"></a>通用的XSS</h4><p>有一篇博客很好的讲解了这个过程： <a target="_blank" rel="noopener" href="https://tttang.com/archive/1703/">https://tttang.com/archive/1703/</a></p>
-<style>.lfdqtpuemgbv{zoom:50%;}</style>
+<style>.eiyudmmwwxak{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218100946792.png" srcset="/img/loading.gif" lazyload class="eiyudmmwwxak" alt="image-20251218100946792">
 
 <p>即使有CSP，也无法阻止这样的攻击</p>
 <h4 id="操纵Cookie"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#操纵Cookie" class="headerlink" title="操纵Cookie"></a>操纵Cookie</h4><p><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/image-20251218101150976.png" srcset="/img/loading.gif" lazyload alt="image-20251218101150976"></p>
 <p><strong>原理</strong>：</p>
 <p>​	在HTTP&#x2F;2协议中，TLS权限的主体是按照SAN列表来定的，证书里的所有域名都是同一权限，而浏览器的同源策略是按		照URI的域名来判定的，这就导致了差异，如果攻击者服务器与victim.com同在一个SAN列表中，攻击者服务器在设置		<code>domain=victim.com</code>时，HTTP&#x2F;2会认为这是合法的，从而导致浏览器认为这个设置也是合法的，于是允许了这次Set-		Cookie</p>
 <h4 id="绕过HSTS"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#绕过HSTS" class="headerlink" title="绕过HSTS"></a>绕过HSTS</h4><p>**HSTS：**HTTP Strict Transport Security，即HTTP严格传输安全，也就是强制浏览器仅通过HTTPS与服务器进行通信</p>
-<style>.lrddxfhnypjt{zoom:50%;}</style>
+<style>.mxecrnkpmwjb{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218102349850.png" srcset="/img/loading.gif" lazyload class="mxecrnkpmwjb" alt="image-20251218102349850">
 
 <p>利用共享的证书，攻击者可以通过设置max-age&#x3D;0，并且让浏览器误以为这是victim.com自己发的，从而让HSTS失效</p>
-<h4 id="恶意文件下载"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#恶意文件下载" class="headerlink" title="恶意文件下载"></a>恶意文件下载</h4><style>.btotvemgbfvt{zoom:50%;}</style>
+<h4 id="恶意文件下载"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#恶意文件下载" class="headerlink" title="恶意文件下载"></a>恶意文件下载</h4><style>.ptfnvbfdmkwo{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251218102658939.png" srcset="/img/loading.gif" lazyload class="ptfnvbfdmkwo" alt="image-20251218102658939">
 
 <p>攻击者通过设置Conten-Disposition，attachment告诉浏览器这是一个附件，需要下载，同时利用共享的证书，让浏览器信任攻击者的服务器，下载了恶意的木马文件</p>
 <h2 id="如何让这些攻击方式落地？"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#如何让这些攻击方式落地？" class="headerlink" title="如何让这些攻击方式落地？"></a>如何让这些攻击方式落地？</h2><p>要是实现这些攻击，考虑以下三个问题</p>
@@ -382,10 +392,10 @@
 <p>​	有一些域名可能曾经被注册过，但是过期后没有继续续费，但是他曾经申请的TLS证书还是有效的，如果该域名与一些		重要的域名同在一个SAN列表中，攻击者就可以购买这个域名并对这些重要域名发起攻击</p>
 <h3 id="延长攻击持续时间"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#延长攻击持续时间" class="headerlink" title="延长攻击持续时间"></a>延长攻击持续时间</h3><p>先介绍一下验证复用机制，在TLS生态中，CA为了简化验证流程，当用户首次通过DNS-01&#x2F;HTTP-01&#x2F;邮箱验证之后，CA会缓存这次验证结果，在一段有效期内，如果用户再次申请该域名的证书，无需重复进行验证，之间复用之前的缓存结果即可签发证书。攻击者先购买一个域名，在申请完证书之后就有了缓存，如果这个时候域名过期了，被受害者买去了，攻击者任然可以继续申请证书。</p>
 <p>下图为不利用验证复用机制的情况下攻击可以持续的时间，在域名被买走之前攻击者申请了一个证书，攻击可以持续直到证书过期。</p>
-<style>.kzvvaptwynkb{zoom:50%;}</style>
+<style>.uafcxyhlvzzb{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251219202958245.png" srcset="/img/loading.gif" lazyload class="uafcxyhlvzzb" alt="image-20251219202958245">
 
 <p>而在利用验证复用的情况下，攻击持续时间会大大加长</p>
-<style>.aitblxbvrjdx{zoom:50%;}</style>
+<style>.fsvhhrjuyezy{zoom:50%;}</style><img src="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习//2025/12/16/%E9%80%9A%E8%BF%87Server%20Push%E5%92%8CSXG%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%BA%90web%E6%94%BB%E5%87%BB%E7%9A%84%E5%AD%A6%E4%B9%A0/image-20251219203227646.png" srcset="/img/loading.gif" lazyload class="fsvhhrjuyezy" alt="image-20251219203227646">
 
 <h3 id="绕过防御策略"><a href="/2025/12/16/通过Server Push和SXG实现跨源web攻击的学习/#绕过防御策略" class="headerlink" title="绕过防御策略"></a>绕过防御策略</h3><p>当受害者意识到攻击者获得了共享的证书时，肯定会想办法撤销证书。而这个证书包含了攻击者域名和受害者域名，想要撤销需要满足以下两点要求之一</p>
 <ul>
