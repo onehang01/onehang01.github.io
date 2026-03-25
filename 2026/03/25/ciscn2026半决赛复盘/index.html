@@ -26,10 +26,17 @@
 <meta property="og:site_name" content="onehang&#39;s blogs">
 <meta property="og:description" content="前情概要遗憾三等奖，止步半决赛，赛前其实还挺有信心的，感觉修复就那点流程，结果被python给制裁了，再加上渗透打的一坨 题目分析awdpMediaDriveBREAK一道比较简单的php，漏洞点比较明显，看一眼关键代码 123456789101112131415161718192021222324252627282930313233343536if (isset($_COOKIE[&#x27;u">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203757.png">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325204514.png">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205025.png">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325211547.png">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205804.png">
+<meta property="og:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325211546.png">
 <meta property="article:published_time" content="2026-03-25T13:47:42.000Z">
-<meta property="article:modified_time" content="2026-03-25T13:51:53.142Z">
+<meta property="article:modified_time" content="2026-03-25T14:06:47.214Z">
 <meta property="article:author" content="onehang">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203757.png">
   
   
   
@@ -302,12 +309,12 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_logged_in</span>() -&gt; <span class="hljs-built_in">bool</span>:<br>    <span class="hljs-keyword">return</span> flask.request.cookies.get(<span class="hljs-string">&quot;visited&quot;</span>) == <span class="hljs-string">&quot;yes&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">bool</span>(flask.request.cookies.get(<span class="hljs-string">&quot;user&quot;</span>))<br></code></pre></td></tr></table></figure>
 
 <p>既然登录不成问题了，我们继续分析登录后的功能点</p>
-<style>.tahvzpghxvsc{zoom:50%;}</style>
+<style>.saejmdelxvns{zoom:50%;}</style><img src="/2026/03/25/ciscn2026半决赛复盘//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325203757.png" srcset="/img/loading.gif" lazyload class="saejmdelxvns" alt="20260325203757">
 
 
 
 <p>很容易看到三个功能点在about页面里面有一个很明显的ssrf，不用看代码也能发现</p>
-<style>.kfpcogdshklt{zoom:50%;}</style>
+<style>.yigkpysiyvfp{zoom:50%;}</style><img src="/2026/03/25/ciscn2026半决赛复盘//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325204514.png" srcset="/img/loading.gif" lazyload class="yigkpysiyvfp" alt="屏幕截图 2026-03-25 204514">
 
 <p>看源码可以发现内网是有php服务，那么我们就可以从这里访问内网的php服务</p>
 <p>我们再看上传插件的代码</p>
@@ -320,7 +327,7 @@
 <li>题目的描述为：你知道时间的真谛吗？</li>
 <li>如果你用他给的dockerfile起环境你就会发现，他的所有目录都是只读的，除了一些单列出来的目录，压根没法把马传到&#x2F;var&#x2F;www&#x2F;html下面</li>
 </ol>
-<style>.mqqvencqxsrw{zoom:50%;}</style>
+<style>.menygipkenxi{zoom:50%;}</style><img src="/2026/03/25/ciscn2026半决赛复盘//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325205025.png" srcset="/img/loading.gif" lazyload class="menygipkenxi" alt="屏幕截图 2026-03-25 205025">
 
 <p>那么就来到了这题的第二种解法，也是预期解。他给的附件里有三个php文件</p>
 <ul>
@@ -335,15 +342,15 @@
 <p>systemid可以使用如下脚本生成(php版本号+API)</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-string">&quot;8.2.15API420220829,NTSBIN_4888(size_t)8\002&quot;</span>));<br></code></pre></td></tr></table></figure>
 
-<style>.vcpnemjikggs{zoom:50%;}</style>
+<style>.ykpocgnvdkmv{zoom:50%;}</style><img src="/2026/03/25/ciscn2026半决赛复盘//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325211547.png" srcset="/img/loading.gif" lazyload class="ykpocgnvdkmv" alt="屏幕截图 2026-03-25 211546">
 
 <p>这里都有了之后我们只现自己起个环境生成一个内容是一句话木马的index.php.bin文件，然后修改掉systemid和时间戳</p>
-<p>![屏幕截图 2026-03-25 205804](屏幕截图 2026-03-25 205804.png)</p>
+<p><img src="/2026/03/25/ciscn2026半决赛复盘/image-20260325205804.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2026-03-25 205804"></p>
 <p>php的配置文件写了opcache的目录是&#x2F;tmp，所以我们要把文件传到&#x2F;tmp&#x2F;system_id&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php.bin</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> zipfile<br><br><span class="hljs-keyword">with</span> zipfile.ZipFile(<span class="hljs-string">&quot;upload.zip&quot;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> zf:<br>    data = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;index.php.bin&#x27;</span>,<span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>    zf.writestr(<span class="hljs-string">&#x27;../../../../../../../../../../tmp/45b8be9467d6ed29438f06cfe9cee9f6/var/www/html/index.php.bin&#x27;</span>,data)<br><br></code></pre></td></tr></table></figure>
 
 <p>从上传插件处上传zip，再从ssrf访问</p>
-<style>.kspzknhzyrmk{zoom:50%;}</style>
+<style>.ulttplmbpvsl{zoom:50%;}</style><img src="/2026/03/25/ciscn2026半决赛复盘//2026/03/25/ciscn2026%E5%8D%8A%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%9B%98/image-20260325211546.png" srcset="/img/loading.gif" lazyload class="ulttplmbpvsl" alt="屏幕截图 2026-03-25 210008">
 
 
 
